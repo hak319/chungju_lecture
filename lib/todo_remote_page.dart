@@ -75,6 +75,15 @@ class _TodoRemotePageState extends State<TodoRemotePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("리모트 To-Do"),
+        backgroundColor: Colors.cyanAccent,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await supabase.auth.signOut();
+                Navigator.pushReplacementNamed(context, "/login");
+              },
+              icon: const Icon(Icons.logout))
+        ],
       ),
       body: Column(
         children: [
@@ -88,6 +97,8 @@ class _TodoRemotePageState extends State<TodoRemotePage> {
                         onSubmitted: _addTodo,
                         decoration: const InputDecoration(
                           hintText: "할 일을 입력하세요",
+                          filled: true,
+                          fillColor: Color(0xFF78909C),
                           border: OutlineInputBorder()
                         ),
                       )
