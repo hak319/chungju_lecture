@@ -23,10 +23,13 @@ class _TodoRemotePageState extends State<TodoRemotePage> {
   }
 
   void _addTodo(String text) async{
+
+    final userId = Supabase.instance.client.auth.currentUser?.id;
     if (text.trim().isEmpty) return;
     await supabase.from("todos").insert({
       'text': text.trim(),
       'done': false,
+      'user_id': userId
     });
     _controller.clear();
     _loadTodos();
@@ -43,9 +46,12 @@ class _TodoRemotePageState extends State<TodoRemotePage> {
   }
 
   Future<void> _loadTodos() async {
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+
     final response = await supabase
         .from('todos')
         .select()
+        .eq('user_id', userId as Object)
         .order('id', ascending: false);
     setState(() {
       _todos = List<Map<String, dynamic>>.from(response);
