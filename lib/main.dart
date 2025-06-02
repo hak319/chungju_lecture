@@ -1,8 +1,8 @@
 import 'package:chungju_lecture/login_page.dart';
+import 'package:chungju_lecture/main_tab_page.dart';
 import 'package:chungju_lecture/signup_page.dart';
 import 'package:chungju_lecture/splash_page.dart';
 import 'package:chungju_lecture/todo_local_page.dart';
-import 'package:chungju_lecture/todo_remote_page.dart';
 import 'package:chungju_lecture/todo_remote_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -29,17 +29,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TO-DO 프로젝트',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      routes: {
-        '/': (context) => const SplashPage(),
-        '/todo-local': (context) => const TodoLocalPage(),
-        '/todo-remote': (context) => const TodoRemotePage(),
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignUpPage(),
-      }
+        title: 'TO-DO 프로젝트',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        routes: {
+          '/': (context) => const SplashPage(),
+          '/main': (context) => const MainTabPage(),
+          '/todo-local': (context) => const TodoLocalPage(),
+          '/todo-remote': (context) => const TodoRemotePage(),
+          '/login': (context) => const LoginPage(),
+          '/signup': (context) => const SignUpPage(),
+        }
     );
   }
 }

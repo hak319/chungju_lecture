@@ -29,7 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("회원가입 실패: $e"))
+          SnackBar(content: Text("회원가입 실패: $e"))
       );
     }
   }
@@ -39,24 +39,24 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("회원가입")),
       body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: "이메일"),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: pwController,
-                decoration: const InputDecoration(labelText: "비밀번호"),
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                  onPressed: _signup,
-                  child: const Text("회원가입"))
-            ],
-          ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            TextField(
+              controller: emailController,
+              decoration: const InputDecoration(labelText: "이메일"),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: pwController,
+              decoration: const InputDecoration(labelText: "비밀번호"),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+                onPressed: _signup,
+                child: const Text("회원가입"))
+          ],
+        ),
       ),
     );
   }
