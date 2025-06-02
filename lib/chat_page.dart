@@ -53,7 +53,8 @@ class _ChatPageState extends State<ChatPage> {
     if (text.isNotEmpty && user != null) {
       await supabase.from("messages").insert({
         'user_id': user.id,
-        'content': text
+        'content': text,
+        'email': user.email
       });
       _controller.clear();
     }
@@ -71,8 +72,38 @@ class _ChatPageState extends State<ChatPage> {
                   itemCount: _messages.length,
                   itemBuilder: (context, index) {
                     final msg = _messages[index];
+                    final userId = supabase.auth.currentUser?.id;
+                    final email = msg['email'] ?? "" ;
+                    final isMine = msg['user_id'] == userId;
+                    final senderText = isMine ? "나" : email;
+                    final createdAt = DateTime.tryParse(msg["created_at"] ?? "") ?? DateTime.now();
+                    final timeString = "${createdAt.hour.toString().padLeft(2, '0')}:${createdAt.minute.toString().padLeft(2, '0')}";
+
                     return ListTile(
-                      title: Text(msg['content'] ?? ''),
+                      title: Text(
+                          msg['content'] ?? '',
+                          textAlign: isMine ? TextAlign.end : TextAlign.start
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: isMine? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            senderText,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[600]
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            timeString,
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.grey[500]
+                            ),
+                          )
+                        ],
+                      ), // 누가 보냈는지
                     );
                   }
               ),
