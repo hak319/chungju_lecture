@@ -8,6 +8,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController pwController = TextEditingController();
@@ -16,17 +17,19 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     final email = emailController.text.trim();
     final pw = pwController.text.trim();
+
     try {
       final response = await supabase.auth.signInWithPassword(
           email: email,
           password: pw
       );
+
       if (response.user != null) {
         Navigator.pushReplacementNamed(context, '/main');
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("로그인 실패: $e")),
+        SnackBar(content: Text("로그인 실패: $e"))
       );
     }
   }
@@ -43,25 +46,25 @@ class _LoginPageState extends State<LoginPage> {
               controller: emailController,
               decoration: const InputDecoration(labelText: "이메일"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 12,),
             TextField(
               controller: pwController,
               decoration: const InputDecoration(labelText: "비밀번호"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 12,),
             ElevatedButton(
                 onPressed: _login,
                 child: const Text("로그인")
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/signup");
+                  Navigator.pushNamed(context, '/signup');
                 },
-                child: const Text("회원 가입하러 가기")
+                child: const Text("회원가입 하러가기")
             )
           ],
         ),
-      ),
+      )
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' ;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoLocalPage extends StatefulWidget {
@@ -11,6 +11,7 @@ class TodoLocalPage extends StatefulWidget {
 }
 
 class _TodoLocalPageState extends State<TodoLocalPage> {
+
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, dynamic>> _todos = [];
 
@@ -18,9 +19,10 @@ class _TodoLocalPageState extends State<TodoLocalPage> {
   void initState() {
     super.initState();
     _loadTodos();
+
   }
 
-  void _addTodo(){
+  void _addTodo() {
     final text = _controller.text.trim();
     if (text.isNotEmpty) {
       setState(() {
@@ -30,7 +32,8 @@ class _TodoLocalPageState extends State<TodoLocalPage> {
       _saveTodos();
     }
   }
-  void _deleteTodo(int index){
+
+  void _deleteTodo(int index) {
     final deleted = _todos[index]['text'];
     setState(() {
       _todos.removeAt(index);
@@ -48,8 +51,8 @@ class _TodoLocalPageState extends State<TodoLocalPage> {
 
   Future<void> _loadTodos() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? saved = prefs.getString("todos");
-    if (saved != null){
+    final String? saved = prefs.getString('todos');
+    if (saved != null) {
       final List decoded = jsonDecode(saved);
       setState(() {
         _todos.clear();
@@ -68,61 +71,62 @@ class _TodoLocalPageState extends State<TodoLocalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("로컬 To-Do"),
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: TextField(
-                        controller: _controller,
-                        onSubmitted: (_) => _addTodo(),
-                        decoration: const InputDecoration(
-                            hintText: "할 일을 입력하세요",
-                            border: OutlineInputBorder()
-                        ),
-                      )
+      appBar: AppBar(
+        title: const Text("로컬 To-Do"),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    onSubmitted: (_) => _addTodo(),
+                    decoration: const InputDecoration(
+                      hintText: '할 일을 입력하세요',
+                      border: OutlineInputBorder()
+                    ),
                   ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                      onPressed: _addTodo,
-                      child: const Text("추가")
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-                child: _todos.isEmpty
-                    ? const Center(child: Text("할 일이 없습니다."))
-                    : ListView.builder(
-                    itemCount: _todos.length,
-                    itemBuilder: (context, index) {
-                      final todo = _todos[index];
-                      return ListTile(
-                        leading: Checkbox(
-                          value: todo['done'],
-                          onChanged: (value) => _toggleDone(index, value),
-                        ),
-                        title: Text(
-                          todo['text'],
-                          style: TextStyle(
-                              decoration: todo['done']
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
-                              color: todo['done'] ? Colors.grey : Colors.black
-                          ),
-                        ),
-                        onLongPress: () => _deleteTodo(index),
-                      );
-                    }
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                    onPressed: _addTodo,
+                    child: const Text("추가")
                 )
+              ],
             )
-          ],
-        )
+          ),
+          Expanded(
+            child: _todos.isEmpty
+              ? const Center(child: Text("할 일이 없습니다"))
+              : ListView.builder(
+                itemCount: _todos.length,
+                itemBuilder: (context, index) {
+                  final todo = _todos[index];
+                  return ListTile(
+                    leading: Checkbox(
+                      value: todo['done'],
+                      onChanged: (value) => _toggleDone(index, value),
+                    ),
+                    title: Text(
+                      todo['text'],
+                      style: TextStyle(
+                        decoration: todo['done']
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                        color: todo['done'] ? Colors.grey : Colors.black
+                      ),
+
+                    ),
+                    onLongPress: () => _deleteTodo(index),
+                  );
+                },
+                )
+          )
+        ],
+      )
     );
   }
 }

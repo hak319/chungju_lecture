@@ -18,9 +18,11 @@ class _SplashPageState extends State<SplashPage> {
 
   void _checkLogin() async {
     final user = Supabase.instance.client.auth.currentUser;
+
     await Future.delayed(const Duration(seconds: 1));
 
     if (!mounted) return;
+
     if (user != null) {
       Navigator.pushReplacementNamed(context, '/main');
     } else {
@@ -28,15 +30,13 @@ class _SplashPageState extends State<SplashPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Text(
-          "TO DO 앱 시작 중.....",
-          style: TextStyle(fontSize: 20),
-        ),
+          'To Do 앱 시작 중'
+        )
       ),
     );
   }
